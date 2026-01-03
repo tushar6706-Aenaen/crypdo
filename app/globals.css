@@ -89,6 +89,22 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Brand colors - light mode defaults */
+  --dark-900: #f8fafc;
+  --dark-700: #f1f5f9;
+  --dark-500: #e2e8f0;
+  --dark-400: #cbd5e1;
+
+  --purple-600: #7c3aed;
+  --purple-100: #4b5563;
+
+  --green-500: #22c55e;
+  --green-400: #10b981;
+  --green-300: #6ee7b7;
+
+  --red-500: #ef4444;
+  --yellow-500: #eab308;
 }
 
 .dark {

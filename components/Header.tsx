@@ -10,7 +10,7 @@ const Header = () => {
     return (
         <div className=' py-2 md:py-4 mx-auto px-2 sm:px-4 max-w-360 w-full  flex justify-between items-center border-b ' >
             <Link href={'/'} >
-                <Image src="logo.svg" alt='logo' width={132} height={40} />
+                <Image src="/logo.svg" alt='logo' width={132} height={40} />
             </Link>
             <nav className='flex h-full items-center' >
                 <Link href="/" className={cn('px-6 py-5 flex items-center transition-all hover:text-white font-medium h-full text-purple-100 cursor-pointer', {

@@ -6,7 +6,7 @@ const BASE_URL = process.env.COINGECKO_BASE_URL
 const API_KEY = process.env.COINGECKO_API_KEY
 
 if (!BASE_URL) {
-  throw new Error('COINGECKO_API_BASE_URL is not defined')
+  throw new Error('COINGECKO_BASE_URL is not defined')
 }
 if (!API_KEY) {
   throw new Error('COINGECKO_API_KEY is not defined')
@@ -24,7 +24,7 @@ export async function fetcher<T>(
     },
     { skipEmptyString: true, skipNull: true }
   )
-  const repsonse = await fetch(url, {
+  const response = await fetch(url, {
     headers: {
       'x-cg-pro-api-key': API_KEY,
       'Content-Type': 'application/json',
@@ -34,10 +34,10 @@ export async function fetcher<T>(
     },
   })
 
-  if (!repsonse.ok) {
-    const errorBody: CoinGeckoErrorBody = await repsonse.json().catch(() => ({}))
+  if (!response.ok) {
+    const errorBody: CoinGeckoErrorBody = await response.json().catch(() => ({}))
 
-    throw new Error(`Error ${repsonse.status} : ${errorBody.error || repsonse.statusText}`)
+    throw new Error(`Error ${response.status} : ${errorBody.error || response.statusText}`)
   }
-  return repsonse.json()
+  return response.json()
 }

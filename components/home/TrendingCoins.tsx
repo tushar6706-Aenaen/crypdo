@@ -7,64 +7,70 @@ import React from 'react'
 import DataTable from '../DataTable'
 
 const TrendingCoins = async () => {
-    const tredingCoins = await fetcher<{ coins: TrendingCoin[] }>('/search/trending', undefined, 300)
+    try {
 
-    const columns: DataTableColumn<TrendingCoin>[] = [
-        {
-            header: 'Name',
-            cellClassName: 'name-cell',
-            cell: (coin) => {
-                const item = coin.item
-                return (
-                    <Link href={`/coins/${item.id}`}>
-                        <Image src={item.large} alt={item.name} width={36} height={36} />
-                        <p>{item.name}</p>
-                    </Link>
-                )
-            },
-        },
-        {
-            header: '24h Change',
-            cellClassName: 'change-cell',
-            cell: (coin) => {
-                const item = coin.item
-                const isTrandingUp = item.data.price_change_percentage_24h.usd > 0
 
-                return (
-                    <div className={cn('price-change', isTrandingUp ? 'text-green-500' : 'text-red-500')}>
-                        <p>
-                            {isTrandingUp ? (
-                                <TrendingUp width={16} height={16} />
-                            ) : (
-                                <TrendingDown width={16} height={16} className="rotate-180" />
-                            )}
-                            {Math.abs(item.data.price_change_percentage_24h.usd).toFixed(2)}%
-                        </p>
-                    </div>
-                )
+        const tredingCoins = await fetcher<{ coins: TrendingCoin[] }>('/search/trending', undefined, 300)
+
+        const columns: DataTableColumn<TrendingCoin>[] = [
+            {
+                header: 'Name',
+                cellClassName: 'name-cell',
+                cell: (coin) => {
+                    const item = coin.item
+                    return (
+                        <Link href={`/coins/${item.id}`}>
+                            <Image src={item.large} alt={item.name} width={36} height={36} />
+                            <p>{item.name}</p>
+                        </Link>
+                    )
+                },
             },
-        },
-        {
-            header: 'Price',
-            cellClassName: 'price-cell',
-            cell: (coin) => formatCurrency(coin.item.data.price),
-        },
-    ]
-    return (
-        <div id="trending-coins">
-            <h4>Trending Coins</h4>
+            {
+                header: '24h Change',
+                cellClassName: 'change-cell',
+                cell: (coin) => {
+                    const item = coin.item
+                    const isTrandingUp = item.data.price_change_percentage_24h.usd > 0
+
+                    return (
+                        <div className={cn('price-change', isTrandingUp ? 'text-green-500' : 'text-red-500')}>
+                            <p>
+                                {isTrandingUp ? (
+                                    <TrendingUp width={16} height={16} />
+                                ) : (
+                                    <TrendingDown width={16} height={16} />
+                                )}
+                                {Math.abs(item.data.price_change_percentage_24h.usd).toFixed(2)}%
+                            </p>
+                        </div>
+                    )
+                },
+            },
+            {
+                header: 'Price',
+                cellClassName: 'price-cell',
+                cell: (coin) => formatCurrency(coin.item.data.price),
+            },
+        ]
+        return (
             <div id="trending-coins">
-                <DataTable
-                    columns={columns}
-                    data={tredingCoins.coins.slice(0,6) || []}
-                    rowKey={(coin) => coin.item.id}
-                    tableClassName="trending-coins-table"
-                    headerCellClassName='py-3!'
-                    bodyCellClassName='py-2!'
-/>
+                <h4>Trending Coins</h4>
+                <div className="trending-coins-wrapper">
+                    <DataTable
+                        columns={columns}
+                        data={tredingCoins.coins.slice(0, 6) ?? []}
+                        rowKey={(coin) => coin.item.id}
+                        tableClassName="trending-coins-table"
+                        headerCellClassName='py-3!'
+                        bodyCellClassName='py-2!'
+                    />
+                </div>
             </div>
-        </div>
-    )
+        )
+    } catch (error) {
+        return <div>Error loading trending coins</div>
+    }
 }
 
 export default TrendingCoins

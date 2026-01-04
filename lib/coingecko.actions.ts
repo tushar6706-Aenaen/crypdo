@@ -58,7 +58,7 @@ export async function getPools(
 
       return poolData.data?.[0] ?? fallback;
     } catch (error) {
-      console.log(error);
+      console.error('Error fetching pool by network/contract:', error);
       return fallback;
     }
   }
@@ -67,7 +67,8 @@ export async function getPools(
     const poolData = await fetcher<{ data: PoolData[] }>('/onchain/search/pools', { query: id });
 
     return poolData.data?.[0] ?? fallback;
-  } catch {
+  } catch (error) {
+    console.error('Error searching pools:', error);
     return fallback;
   }
 }

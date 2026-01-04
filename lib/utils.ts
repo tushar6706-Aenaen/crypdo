@@ -39,18 +39,39 @@ export function formatPercentage(change: number | null | undefined): string {
 }
 
 export function trendingClasses(value: number) {
-  const isTrendingUp = value > 0;
+  if (value > 0) {
+    return {
+      textClass: 'text-green-400',
+      bgClass: 'bg-green-500/10',
+      iconClass: 'icon-up',
+    };
+  }
 
+  if (value < 0) {
+    return {
+      textClass: 'text-red-400',
+      bgClass: 'bg-red-500/10',
+      iconClass: 'icon-down',
+    };
+  }
+
+  // value === 0 (neutral)
   return {
-    textClass: isTrendingUp ? 'text-green-400' : 'text-red-400',
-    bgClass: isTrendingUp ? 'bg-green-500/10' : 'bg-red-500/10',
-    iconClass: isTrendingUp ? 'icon-up' : 'icon-down',
+    textClass: 'text-gray-400',
+    bgClass: 'bg-gray-500/10',
+    iconClass: 'icon-neutral',
   };
 }
 
 export function timeAgo(date: string | number | Date): string {
   const now = new Date();
   const past = new Date(date);
+
+  // Validate the parsed date
+  if (isNaN(past.getTime())) {
+    return 'invalid date';
+  }
+
   const diff = now.getTime() - past.getTime(); // difference in ms
 
   const seconds = Math.floor(diff / 1000);

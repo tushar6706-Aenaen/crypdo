@@ -1,5 +1,5 @@
 import { fetcher } from '@/lib/coingecko.actions'
-import { cn, formatCurrency } from '@/lib/utils'
+import { cn, formatCurrency, formatPercentage } from '@/lib/utils'
 import { TrendingDown, TrendingUp } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -36,14 +36,15 @@ const TrendingCoins = async () => {
 
                 return (
                     <div className={cn('price-change', isTrandingUp ? 'text-green-500' : 'text-red-500')}>
-                        <p>
+                        <p className='flex items-center gap-2'>
                             {isTrandingUp ? (
                                 <TrendingUp width={16} height={16} />
                             ) : (
                                 <TrendingDown width={16} height={16} />
                             )}
-                            {Math.abs(item.data.price_change_percentage_24h.usd).toFixed(2)}%
-                        </p>
+
+                            {formatPercentage(item.data.price_change_percentage_24h.usd)}
+                            </p>
                     </div>
                 )
             },
